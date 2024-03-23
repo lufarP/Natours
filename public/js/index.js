@@ -11,9 +11,8 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const chooseNewPhotoButton = document.querySelector('.btn-text');
-// const inputPhotoForm = document.querySelector('.form__input--photo');
-
-// let photo = undefined;
+const inputPhotoForm = document.querySelector('.form__input--photo');
+const userPhoto = document.querySelector('.form__user-photo');
 
 // DELEGATION
 if (mapBox) {
@@ -65,25 +64,12 @@ if (chooseNewPhotoButton)
     photoUploadInput.click();
   });
 
-// if (inputPhotoForm) {
-//   inputPhotoForm.addEventListener('change', e => {
-//     // e.preventDefault();
-
-//     const selectedFile = inputPhotoForm.files[0]; // Get the selected file
-
-//     // Create a new FileReader object
-//     const reader = new FileReader();
-
-//     // Set up event handler for when the file has been loaded
-//     reader.onload = function(event) {
-//       // The result property contains the file data as a data URL
-//       photo = event.target.result;
-
-//       // You can process the file data URL here, or use it as needed
-//       // console.log('File data URL:', fileDataUrl);
-//     };
-
-//     // Read the file as a data URL (this will read the entire file into memory)
-//     reader.readAsDataURL(selectedFile);
-//   });
-// }
+if (inputPhotoForm)
+  inputPhotoForm.addEventListener('change', () => {
+    const selectedFile = inputPhotoForm.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = event => (userPhoto.src = event.target.result);
+      reader.readAsDataURL(selectedFile);
+    }
+  });
