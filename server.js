@@ -11,12 +11,12 @@ dotenv.config({ path: './config.env' });
 const app = require('./app');
 
 const uri = process.env.DATABASE_URI;
-const { DATABASE_APP_NAME, DATABASE_USER, DATABASE_PASS } = process.env;
+const { DATABASE_DB_NAME, DATABASE_USER, DATABASE_PASS } = process.env;
 mongoose
   .connect(uri, {
-    appName: DATABASE_APP_NAME,
     user: DATABASE_USER,
     pass: DATABASE_PASS,
+    dbName: DATABASE_DB_NAME,
     autoIndex: false
   })
   .then(() => console.log('DB connection successful!'));
