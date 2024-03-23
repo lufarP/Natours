@@ -3,6 +3,7 @@ const express = require('express');
 const multer = require('multer');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
+
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, path.join(__dirname, '..', 'public', 'img', 'users')); // Directory where uploaded files will be stored
