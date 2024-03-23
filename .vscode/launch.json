@@ -17,6 +17,20 @@
                 "<node_internals>/**"
             ],
             "type": "node"
+        },
+        {
+            "name": "watch|parcel",
+            // "console": "integratedTerminal",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "watch:js"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
         }
     ]
 }
