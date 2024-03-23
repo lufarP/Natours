@@ -65,13 +65,6 @@ app.use(
   })
 );
 
-// Test middleware
-app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
-  next();
-});
-
 // 3) ROUTES
 app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
