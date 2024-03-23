@@ -42,8 +42,9 @@ block content
               label.form__label(for='email') Email address
               input#email.form__input(type='email', value=`${user.email}`, required, name='email')
             .form__group.form__photo-upload
-              img.form__user-photo(src=`/img/users/${user.photo}`, alt='User photo')
-              a.btn-text(href='') Choose new photo
+              img#photo.form__user-photo(src=`/img/users/${user.photo}`, alt='User photo')
+              input#photo-upload-input.form__input.form__input--photo(name='photo', type="file", style="display: none;", accept="image/*")
+              a#choose-new-photo.btn-text(href='') Choose new photo
             .form__group.right
               button.btn.btn--small.btn--green Save settings
               
