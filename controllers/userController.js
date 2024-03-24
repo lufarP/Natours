@@ -23,10 +23,10 @@ const fileFilter = (req, file, cb) => {
 
 exports.upload = multer({ storage, fileFilter });
 
-exports.imageProcess = (req, res, next) => {
+exports.imageProcess = catchAsync(async (req, res, next) => {
   if (req.file) {
     req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
-    sharp(req.file.buffer)
+    await sharp(req.file.buffer)
       .resize(500, 500)
       .toFormat('jpeg')
       .jpeg({ quality: 95 })
@@ -35,7 +35,7 @@ exports.imageProcess = (req, res, next) => {
       );
   }
   next();
-};
+});
 
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
