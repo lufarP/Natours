@@ -1,19 +1,12 @@
 const path = require('path');
 const multer = require('multer');
+const sharp = require('sharp');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const factory = require('./handlerFactory');
 
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, path.join(__dirname, '..', 'public', 'img', 'users')); // Directory where uploaded files will be stored
-  },
-  filename: function(req, file, cb) {
-    const ext = file.mimetype.split('/')[1]; // Extract file extension
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`); // File name will include user ID and current timestamp
-  }
-});
+const storage = multer.memoryStorage();
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -29,6 +22,20 @@ const fileFilter = (req, file, cb) => {
 };
 
 exports.upload = multer({ storage, fileFilter });
+
+exports.imageProcess = (req, res, next) => {
+  if (req.file) {
+    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+    sharp(req.file.buffer)
+      .resize(500, 500)
+      .toFormat('jpeg')
+      .jpeg({ quality: 95 })
+      .toFile(
+        path.join(__dirname, '..', 'public', 'img', 'users', req.file.filename)
+      );
+  }
+  next();
+};
 
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
