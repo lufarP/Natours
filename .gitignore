@@ -3,3 +3,4 @@ node_modules/
 dev-data/
 .parcel-cache/
 public/js/bundled/*
+public/img/**/*.jpeg
