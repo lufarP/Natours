@@ -23,13 +23,6 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.logRequest = (req, res, next) => {
-  console.log(req.headers);
-  console.log(req.body);
-  next();
-  // console.log(req.headers);
-};
-
 exports.upload = multer({ storage: storage });
 
 exports.getMe = (req, res, next) => {
