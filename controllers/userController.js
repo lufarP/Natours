@@ -21,7 +21,7 @@ const fileFilter = (req, file, cb) => {
   else cb(new AppError('Not an image! Please upload only images.', 400), false);
 };
 
-exports.upload = multer({ storage, fileFilter });
+exports.uploadSingle = multer({ storage, fileFilter }).single('photo');
 
 exports.imageProcess = catchAsync(async (req, res, next) => {
   if (req.file) {

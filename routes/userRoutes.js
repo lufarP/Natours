@@ -18,7 +18,7 @@ router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
 router.patch(
   '/updateMe',
-  userController.upload.single('photo'),
+  userController.uploadSingle,
   userController.imageProcess,
   userController.updateMe
 );
