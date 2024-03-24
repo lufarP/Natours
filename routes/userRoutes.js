@@ -20,6 +20,7 @@ router.patch(
   '/updateMe',
   userController.upload.single('photo'),
   userController.imageProcess,
+  userController.removeOldPhoto,
   userController.updateMe
 );
 router.delete('/deleteMe', userController.deleteMe);

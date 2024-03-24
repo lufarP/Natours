@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const sharp = require('sharp');
@@ -35,6 +36,18 @@ exports.imageProcess = (req, res, next) => {
       );
   }
   next();
+};
+
+exports.removeOldPhoto = async (req, res, next) => {
+  try {
+    if (req.file && req.user.photo.startsWith(`user-${req.user.id}`)) {
+      await fs.promises.unlink(
+        path.join(__dirname, '..', 'public', 'img', 'users', req.user.photo)
+      );
+    }
+  } finally {
+    next();
+  }
 };
 
 exports.getMe = (req, res, next) => {
