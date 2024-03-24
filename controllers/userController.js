@@ -28,7 +28,7 @@ const fileFilter = (req, file, cb) => {
   else cb(new AppError('Not an image! Please upload only images.', 400), false);
 };
 
-exports.upload = multer({ storage: storage, fileFilter });
+exports.upload = multer({ storage, fileFilter });
 
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
