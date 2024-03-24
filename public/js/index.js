@@ -13,6 +13,7 @@ const chooseNewPhotoButton = document.querySelector('.btn-text');
 const inputPhotoForm = document.querySelector('.form__input--photo');
 const userPhoto = document.querySelector('.form__user-photo');
 
+let photo = undefined;
 // DELEGATION
 if (mapBox) {
   const locations = JSON.parse(mapBox.dataset.locations);
@@ -30,11 +31,11 @@ if (loginForm)
 if (logOutBtn) logOutBtn.addEventListener('click', logout);
 
 if (userDataForm)
-  userDataForm.addEventListener('submit', e => {
+  userDataForm.addEventListener('submit', async e => {
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
-    updateSettings({ name, email }, 'data');
+    updateSettings({ name, email, photo }, 'data');
   });
 
 if (userPasswordForm)
@@ -65,10 +66,10 @@ if (chooseNewPhotoButton)
 
 if (inputPhotoForm)
   inputPhotoForm.addEventListener('change', () => {
-    const selectedFile = inputPhotoForm.files[0];
-    if (selectedFile) {
+    photo = inputPhotoForm.files[0];
+    if (photo) {
       const reader = new FileReader();
       reader.onload = event => (userPhoto.src = event.target.result);
-      reader.readAsDataURL(selectedFile);
+      reader.readAsDataURL(photo);
     }
   });
