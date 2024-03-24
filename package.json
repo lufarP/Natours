@@ -3,12 +3,25 @@
   "version": "1.0.0",
   "description": "Learning node, express and mongoDB",
   "main": "app.js",
+  "targets": {
+    "front-end:dev": {
+      "source": "./public/js/index.js",
+      "distDir": "./public/js/bundled/",
+      "context": "browser"
+    },
+    "front-end": {
+      "source": "./public/js/index.js",
+      "distDir": "./public/js/bundled/",
+      "context": "browser",
+      "sourceMap": false
+    }
+  },
   "scripts": {
     "start": "NODE_ENV=development nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
-    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "watch:js": "parcel watch --target front-end:dev",
+    "build:js": "parcel build --target front-end"
   },
   "nodemonConfig": {
     "ignore": [
@@ -48,8 +61,9 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
-    "parcel-bundler": "^1.12.3",
-    "prettier": "^1.17.0"
+    "parcel": "^2.12.0",
+    "prettier": "^1.17.0",
+    "process": "^0.11.10"
   },
   "engines": {
     "node": ">=10.0.0"
