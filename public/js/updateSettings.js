@@ -9,22 +9,8 @@ export const updateSettings = async (data, type) => {
       type === 'password'
         ? '/api/v1/users/updateMyPassword'
         : '/api/v1/users/updateMe';
-    let headers = {
-      'Content-Type': 'application/json'
-    };
-    if (type === 'data' && data && data.photo) {
-      headers['Content-Type'] = 'multipart/form-data';
-      const formData = new FormData();
-      // Append each key-value pair from data to formData
-      Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-      // Assign formData to data
-      data = formData;
-    }
 
     const res = await axios({
-      headers,
       method: 'PATCH',
       url,
       data
