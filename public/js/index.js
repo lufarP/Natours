@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { displayMap } from './mapbox';
-import { login, logout } from './login';
+import { login, logout, resetPassword } from './login';
 import { updateSettings } from './updateSettings';
 
 // DOM ELEMENTS
@@ -12,6 +12,7 @@ const userPasswordForm = document.querySelector('.form-user-password');
 const chooseNewPhotoButton = document.querySelector('.btn-text');
 const inputPhotoForm = document.querySelector('.form__input--photo');
 const userPhoto = document.querySelector('.form__user-photo');
+const resetPasswordForm = document.querySelector('.form--reset-password');
 
 let photo = undefined;
 // DELEGATION
@@ -76,4 +77,17 @@ if (inputPhotoForm)
       reader.onload = event => (userPhoto.src = event.target.result);
       reader.readAsDataURL(photo);
     }
+  });
+
+if (resetPasswordForm)
+  resetPasswordForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    const token = window.location.pathname
+      .split('/')
+      .filter(Boolean)
+      .pop();
+
+    resetPassword(password, passwordConfirm, token);
   });
