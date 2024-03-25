@@ -1,27 +1,51 @@
 const nodemailer = require('nodemailer');
+const pug = require('pug');
 
-const sendEmail = async options => {
-  // 1) Create a transporter
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD
+class EmailTransporter {
+  constructor() {
+    if (!EmailTransporter.instance) {
+      EmailTransporter.instance = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        auth: {
+          user: process.env.EMAIL_USERNAME,
+          pass: process.env.EMAIL_PASSWORD
+        }
+      });
     }
-  });
+    return EmailTransporter.instance;
+  }
+}
 
-  // 2) Define the email options
-  const mailOptions = {
-    from: process.env.EMAIL,
-    to: options.email,
-    subject: options.subject,
-    html: options.message
-    // html:
-  };
+module.exports = class Email {
+  constructor(user, url) {
+    this.to = user.email;
+    this.firstName = user.name.split(' ')[0];
+    this.url = url;
+    this.from = process.env.EMAIL;
+    this.transporter = new EmailTransporter();
+  }
 
-  // 3) Actually send the email
-  await transporter.sendMail(mailOptions);
+  async sendMail(template, subject) {
+    const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
+      firstName: this.firstName,
+      url: this.url
+    });
+
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject,
+      html
+      // html:
+    };
+    await this.transporter.sendMail(mailOptions);
+  }
+
+  async sendForgotPasswordMail() {
+    await this.sendMail(
+      'forgotPassword',
+      'Your password reset token (valid for 10 min)'
+    );
+  }
 };
-
-module.exports = sendEmail;

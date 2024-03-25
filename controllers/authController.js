@@ -1,11 +1,10 @@
 const crypto = require('crypto');
-const pug = require('pug');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
-const sendEmail = require('./../utils/email');
+const Email = require('./../utils/email');
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -179,18 +178,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     'host'
   )}/resetPassword/${resetToken}`;
 
-  const message = pug.renderFile(
-    `${__dirname}/../views/email/forgotPassword.pug`,
-    { resetURL, user_name: user.name }
-  );
-
   try {
-    await sendEmail({
-      email: user.email,
-      subject: 'Your password reset token (valid for 10 min)',
-      message
-    });
-
+    const email = new Email(user, resetURL);
+    await email.sendForgotPasswordMail();
     res.status(200).json({
       status: 'success',
       message: 'Token sent to email!'
