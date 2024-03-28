@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { displayMap } from './mapbox';
 import { login, logout, resetPassword } from './login';
+import { bookTour } from './stripe';
 import { updateSettings } from './updateSettings';
 
 // DOM ELEMENTS
@@ -13,6 +14,8 @@ const chooseNewPhotoButton = document.querySelector('.btn-text');
 const inputPhotoForm = document.querySelector('.form__input--photo');
 const userPhoto = document.querySelector('.form__user-photo');
 const resetPasswordForm = document.querySelector('.form--reset-password');
+
+const bookTourBtn = document.getElementById('book-tour');
 
 let photo = undefined;
 // DELEGATION
@@ -90,4 +93,11 @@ if (resetPasswordForm)
       .pop();
 
     resetPassword(password, passwordConfirm, token);
+  });
+
+if (bookTourBtn)
+  bookTourBtn.addEventListener('click', e => {
+    e.preventDefault();
+    const { tourId } = e.target.dataset;
+    bookTour(tourId);
   });
