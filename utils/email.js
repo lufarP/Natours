@@ -49,4 +49,8 @@ module.exports = class Email {
       'Your password reset token (valid for 10 min)'
     );
   }
+
+  async sendWelcomeMail() {
+    await this.sendMail('welcome', 'Welcome to the Natours Family!');
+  }
 };
